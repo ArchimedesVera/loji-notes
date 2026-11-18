@@ -1,0 +1,70 @@
+{
+  "format": "loji-notes",
+  "version": 1,
+  "file": "src/main/java/com/demo/pay/SettlementService.java",
+  "notes": [
+    {
+      "id": "n_check0001",
+      "line": 9,
+      "fingerprint": "b58abb197028f893",
+      "ctxBefore": [
+        "    String settle(String order) {",
+        "        if (order == null) {"
+      ],
+      "ctxAfter": [
+        "        }",
+        "        // 先锁库存，再扣款"
+      ],
+      "text": "参数校验统一用 Preconditions.checkNotNull。",
+      "color": "blue",
+      "dx": 40,
+      "dy": -90,
+      "collapsed": true,
+      "created": 1755000000000,
+      "updated": 1755000000000,
+      "author": "loji"
+    },
+    {
+      "id": "n_stock0001",
+      "line": 11,
+      "fingerprint": "87255f55e1cf3086",
+      "ctxBefore": [
+        "            throw new IllegalArgumentException();",
+        "        }"
+      ],
+      "ctxAfter": [
+        "        charge(order);",
+        "        notify(order);"
+      ],
+      "text": "锁库存和扣款不是原子操作。charge 抛异常时库存会一直挂着。→ 改成先预占，失败再回滚。",
+      "color": "amber",
+      "dx": 75,
+      "dy": 14,
+      "collapsed": false,
+      "created": 1755000000000,
+      "updated": 1794994652878,
+      "author": "loji"
+    },
+    {
+      "id": "n_outbox001",
+      "line": 13,
+      "fingerprint": "5fe3fcd422d0deb4",
+      "ctxBefore": [
+        "        // 先锁库存，再扣款",
+        "        charge(order);"
+      ],
+      "ctxAfter": [
+        "        return \"ok\";",
+        "    }"
+      ],
+      "text": "结算不该同步发消息：落 outbox 表，再由异步任务投递。",
+      "color": "green",
+      "dx": 40,
+      "dy": 110,
+      "collapsed": false,
+      "created": 1755000000000,
+      "updated": 1755000000000,
+      "author": "loji"
+    }
+  ]
+}

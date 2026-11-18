@@ -1,0 +1,72 @@
+<idea-plugin>
+    <id>dev.loji.notes</id>
+    <name>Loji Notes</name>
+    <version>0.1.0</version>
+    <vendor>ArchimedesVera</vendor>
+
+    <description><![CDATA[
+    <p><b>Loji Notes</b> — floating, draggable comment cards pinned to any code line, connected back
+    to the anchor by a leader line. Notes live in <code>.loji/notes/</code> inside the repository,
+    so they travel with git and show up on every machine that clones the project.</p>
+
+    <p>给代码某一行挂一张可拖动、可换色、可折叠的注释卡，用指向线连回它批注的那一行。</p>
+
+    <h3>What it does / 能做什么</h3>
+    <ul>
+      <li><b>Drag anywhere / 自由摆放</b>：按住卡片拖到任意位置，松手即存。</li>
+      <li><b>Leader line / 指向线</b>：曲线从卡片连到锚点行尾；锚点滚出可视区时卡片自动隐藏。</li>
+      <li><b>Six colors / 六色</b>：右键切换；点小三角收成一条，省屏幕。</li>
+      <li><b>Follows the code / 跟着代码走</b>：锚点 = 行号 + 行指纹 + 上下各 2 行上下文，代码挪动后自动重新定位；真找不到就标「锚点丢失」，不会乱指。</li>
+      <li><b>Team friendly / 跨机器</b>：数据是纯文本 JSON，提交进版本库即可多人共享。</li>
+    </ul>
+
+    <h3>Shortcuts / 快捷键</h3>
+    <ul>
+      <li><code>Ctrl+Alt+N</code> 在光标行新建注释栏 / new note on the current line</li>
+      <li><code>Ctrl+Alt+Shift+N</code> 全局收起或展开 / toggle all cards</li>
+      <li>双击卡片改文字，右键换色 / 收起 / 跳到锚点行 / 删除</li>
+    </ul>
+
+    <h3>Where the data lives / 数据在哪</h3>
+    <p><code>&lt;project&gt;/.loji/notes/&lt;relative path&gt;.json</code> — plain text, diffable, mergeable.
+    The plugin does not use the network and collects no data; uninstalling it leaves those files untouched.</p>
+
+    <h3>Requirements / 要求</h3>
+    <p>IntelliJ IDEA 2026.2 or newer. Built against the 2026.2 editor API.</p>
+    ]]></description>
+
+    <change-notes><![CDATA[
+    <p>0.1.0 — first public build.</p>
+    <ul>
+      <li>Draggable cards with leader lines, six colors, collapse, global toggle</li>
+      <li>Sidecar storage in <code>.loji/notes/</code>, shared through git</li>
+      <li>Anchor fingerprinting with automatic re-location</li>
+      <li>Scroll synchronisation: cards follow the code, off-screen anchors hide the card</li>
+    </ul>
+    ]]></change-notes>
+
+    <idea-version since-build="262"/>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="loji.notes.LojiStartup"/>
+    </extensions>
+
+    <actions>
+        <action id="Loji.AddNote"
+                class="loji.notes.actions.AddNoteAction"
+                text="新建注释栏…"
+                description="在当前行挂一张浮动注释卡">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt N"/>
+        </action>
+        <action id="Loji.ToggleOverlay"
+                class="loji.notes.actions.ToggleOverlayAction"
+                text="注释栏：显示 / 隐藏"
+                description="一次性收起或展开所有注释卡">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt shift N"/>
+        </action>
+    </actions>
+</idea-plugin>
