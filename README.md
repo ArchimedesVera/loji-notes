@@ -14,7 +14,7 @@
 
 ## 安装
 
-插件已针对本机 **IntelliJ IDEA 2026.2.1 (build 262.9437.185)** 编译，无需联网。
+插件面向 **IntelliJ IDEA 2026.2 及以上**编译（build 262），从源码构建不依赖网络。
 
 方式 A：IDEA → `Settings` → `Plugins` → 齿轮 → `Install Plugin from Disk…` → 选
 `build/dist/loji-notes-0.1.0.zip` → 重启。
@@ -78,7 +78,7 @@
 
 ## 自己构建
 
-本机没有 Gradle、且网络不通，所以走离线链路：直接调用 IDEA 自带的 `jbr` + `kotlinc` 编译打包。
+构建不依赖 Gradle：直接调用 IDEA 自带的 `jbr` + `kotlinc` 编译打包，全程离线。
 
 ```
 build.cmd            :: 编译 + 打包
@@ -122,7 +122,7 @@ tools/                    打包、预览图、示例数据生成
 ## 已知边界
 
 - 只处理本地文件项目；`.loji` 自身与远程/非本地文件系统跳过。
-- 卡片坐标按像素存，换字体大小或窗口宽窄后会按屏幕边界夹住，不会跑到窗外，但可能和你上次摆的位置略有出入。
+- 卡片坐标按像素存，换字号或窗口变窄后会按屏幕边界夹住，不会跑到窗外，但位置可能与上次摆放略有出入。
 - 锚点搜索窗口 ±400 行；整段代码被挪到千里之外，会判为失联而不是乱指。
 - 同一行可以挂多张卡，默认位置会叠在一起，需要手动拖开。
 
@@ -149,10 +149,10 @@ tools/                    打包、预览图、示例数据生成
 
 - 直接把 zip 发给对方，`Settings → Plugins → ⚙ → Install Plugin from Disk…`。
 - 或者自己托管一个 `updatePlugins.xml`（JetBrains 的私有仓库格式），指向 zip 的下载地址，
-  别人在 `Settings → Plugins → ⚙ → Manage Plugin Repositories…` 里加你的 URL，之后能收到更新。
+  别人在 `Settings → Plugins → ⚙ → Manage Plugin Repositories…` 里加上这个 URL，之后就能收到更新。
 
 ## 关于 VS Code
 
 VS Code 的扩展 API **没有**"在编辑器上层自由绘制"的能力：装饰器只能画在行尾/概览栏，webview 只能占据独立区域。所以同样的体验在 VS Code 里得换个形态 —— 停靠式注释轨：右侧一列卡片，滚动联动，指向线连到对应行号。数据格式可以完全复用（同一份 `.loji/`），两边互相看得见。
 
-这条我先没动手，等你定了形态再做。
+VS Code 版本尚未实现，界面形态待定。
