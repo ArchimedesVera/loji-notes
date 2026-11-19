@@ -1,27 +1,35 @@
-# Loji Notes · 注释栏
+#Loji Notes · 注释栏
 
-给代码某一行挂一张**可拖动、带指向线、可换色、可折叠**的浮动注释卡。
 
-注释不写进源码，而是存在仓库里的 `.loji/notes/` 旁路文件中，跟 git 一起走 —— 别人 clone 下来打开同一个文件，卡片就在原位置。
 
-![效果预览](docs/preview.png)
+给代码某一行挂一张 **可拖动、带指向线、可换色、可折叠 **的浮动注释卡。 
 
-（上图是按渲染规格画的效果图。下面是插件在这台机器上真实跑起来的截图，打开 `sample` 项目即可复现。）
+注释不写进源码，而是存在仓库里的 `.loji/notes/ `旁路文件中，跟 git 一起走 —— 别人 clone 下来打开同一个文件，卡片就在原位置。
 
-![实测](docs/verify.png)
 
-滚动时卡片跟着代码走，锚点滚出可视区的卡片自动隐藏，滚回来原样出现。
 
-## 安装
+![效果预览 ](docs/preview.png )
 
-插件已针对本机 **IntelliJ IDEA 2026.2.1 (build 262.9437.185)** 编译，无需联网。
+（上图是按渲染规格画的效果图。下面是插件在这台机器上真实跑起来的截图，打开 `sample`项目即可复现。） 
 
-方式 A：IDEA → `Settings` → `Plugins` → 齿轮 → `Install Plugin from Disk…` → 选
-`build/dist/loji-notes-0.1.0.zip` → 重启。
+![实测 ](docs/verify.png )
 
-方式 B：解压到 `%APPDATA%\JetBrains\IntelliJIdea2026.2\plugins\`（得到 `plugins\loji-notes\lib\*.jar`）→ 重启。
+滚动时卡片跟着代码走，锚点滚出可视区的卡片自动隐藏，滚回来原样出现。 
 
-## 用法
+##安装 
+
+插件已针对本机 **IntelliJ IDEA 2026.2.1 (build 262.9437.185)
+
+**编译，无需联网。 
+
+方式 A：IDEA → `Settings`→ `Plugins `→ 齿轮 → `Install Plugin from Disk…
+
+`→ 选 
+`build/dist/loji-notes-0.1.0.zip `→ 重启。 
+
+方式 B：解压到 `%APPDATA%\JetBrains\IntelliJIdea2026.2\plugins\ `（得到 `plugins\loji-notes\lib\*.jar `）→ 重启。 
+
+##用法 
 
 | 操作 | 效果 |
 | --- | --- |
@@ -78,7 +86,7 @@
 
 ## 自己构建
 
-本机没有 Gradle、且网络不通，所以走离线链路：直接调用 IDEA 自带的 `jbr` + `kotlinc` 编译打包。
+本机如果没有 Gradle、且网络不通，走离线链路：直接调用 IDEA 自带的 `jbr` + `kotlinc` 编译打包。
 
 ```
 build.cmd            :: 编译 + 打包
@@ -126,17 +134,6 @@ tools/                    打包、预览图、示例数据生成
 - 锚点搜索窗口 ±400 行；整段代码被挪到千里之外，会判为失联而不是乱指。
 - 同一行可以挂多张卡，默认位置会叠在一起，需要手动拖开。
 
-## 发布到 JetBrains Marketplace
-
-上架后别人能在 `Settings → Plugins → Marketplace` 里直接搜到、一键装，后续更新也会自动推送。
-
-1. **注册账号**：<https://account.jetbrains.com> 用任意邮箱注册，免费。
-2. **上传**：登录后打开 <https://plugins.jetbrains.com/author/me/upload>，选
-   `build/dist/loji-notes-0.1.0.zip`，填表（名字、描述、类别、标签、许可证、源码地址），提交。
-3. **等审核**：新插件人工审核，通常 1–3 个工作日。插件 ID `dev.loji.notes` 首次上传后就被占用，不能再改。
-4. **上架后**：搜索页地址形如 `https://plugins.jetbrains.com/plugin/<数字>/loji-notes`，
-   用户在 IDE 里装的就是这个版本。
-
 注意：
 
 - 上传的 zip 里必须包含 `META-INF/plugin.xml` 与图标，`build.cmd` 打出的包已经满足。
@@ -151,8 +148,6 @@ tools/                    打包、预览图、示例数据生成
 - 或者自己托管一个 `updatePlugins.xml`（JetBrains 的私有仓库格式），指向 zip 的下载地址，
   别人在 `Settings → Plugins → ⚙ → Manage Plugin Repositories…` 里加你的 URL，之后能收到更新。
 
-## 关于 VS Code
+## 关于 VS Code的适配问题
 
 VS Code 的扩展 API **没有**"在编辑器上层自由绘制"的能力：装饰器只能画在行尾/概览栏，webview 只能占据独立区域。所以同样的体验在 VS Code 里得换个形态 —— 停靠式注释轨：右侧一列卡片，滚动联动，指向线连到对应行号。数据格式可以完全复用（同一份 `.loji/`），两边互相看得见。
-
-这条我先没动手，等你定了形态再做。
